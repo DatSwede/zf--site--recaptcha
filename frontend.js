@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Server URL can be your backend server url or make webhook url
   const serverUrl =
     "SERVER_FUNCTION_URL_HERE";
-  const siteKey = "SITE_KEY_HERE";
+  const siteKey = 6LfiPC4qAAAAAA8hn8r4TZJo_2LmiM2I0Y8KhZIW";
 
   formBlocks.forEach((formBlock) => {
     // Select form and related elements within the block
@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
         try {
           // Execute ReCAPTCHA and retrieve the token
           const token = await grecaptcha.execute(siteKey, { action: "submit" });
-          // console.log(token);
+          console.log(token);
 
           // Serialize form data into a simple object
           let serializedData = {};
