@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Server URL and site key for ReCAPTCHA verification
   // Server URL can be your backend server url or make webhook url
   const serverUrl =
-    "SERVER_FUNCTION_URL_HERE";
+    "https://delightful-cucurucho-bc36f3.netlify.app/.netlify/functions/verify";
   const siteKey = 6LfiPC4qAAAAAA8hn8r4TZJo_2LmiM2I0Y8KhZIW";
 
   formBlocks.forEach((formBlock) => {
