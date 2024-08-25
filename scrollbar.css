@@ -1,0 +1,23 @@
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+    padding-right: 2px; /* Add padding to the right side */
+}
+
+/* track */
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0);
+    border-color: rgba(255, 255, 255, 0);
+}
+
+/* thumb */
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: var(--swatch--grey-opaque); /* Set the thumb color to the variable */
+    transition: background-color 200ms ease; /* Add transition */
+}
+
+/* thumb hover */
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--theme--text); /* Set the thumb hover color */
+}
