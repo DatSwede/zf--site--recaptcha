@@ -10,8 +10,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Function to scroll to a specific section and focus on the visible input
   function scrollToSection(index) {
-    sections[index].scrollIntoView({ behavior: 'smooth' });
-    focusVisibleInput(sections[index]);
+    const targetSection = sections[index];
+    const targetRect = targetSection.getBoundingClientRect();
+    const scrollContainer = form;
+    const containerRect = scrollContainer.getBoundingClientRect();
+
+    const targetTop = targetRect.top - containerRect.top + scrollContainer.scrollTop;
+
+    scrollContainer.scrollTo({
+      top: targetTop,
+      behavior: 'smooth'
+    });
+
+    // Focus on the first visible input after a short delay to ensure scrolling is complete
+    setTimeout(() => focusVisibleInput(targetSection), 300);
   }
 
   // Function to focus on the first visible input in a section
