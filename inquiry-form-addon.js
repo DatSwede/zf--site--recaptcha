@@ -33,7 +33,10 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
 
-    document.getElementById('addons').value = selectedAddons.join(', ');
+    const addonsField = document.querySelector('[form-field="addons"]');
+    if (addonsField) {
+      addonsField.value = selectedAddons.join(', ');
+    }
   }
 
   // Function to update the page names in the "pages" input field
@@ -47,7 +50,10 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
 
-    document.getElementById('pages').value = selectedPages.join(', ');
+    const pagesField = document.querySelector('[form-field="pages"]');
+    if (pagesField) {
+      pagesField.value = selectedPages.join(', ');
+    }
   }
 
   // Function to update the style names in the "styles" input field
@@ -61,7 +67,29 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
 
-    document.getElementById('styles').value = selectedStyles.join(', ');
+    const stylesField = document.querySelector('[form-field="styles"]');
+    if (stylesField) {
+      stylesField.value = selectedStyles.join(', ');
+    }
+  }
+
+  // Function to set the start price based on CMS data
+  function setStartPrice() {
+    const startPriceField = document.getElementById('start-price');
+    if (startPriceField) {
+      const startItemName = startPriceField.getAttribute('start-price');
+      const cmsItems = document.querySelectorAll('[form-addon="cms"] [role="listitem"]');
+      
+      for (let item of cmsItems) {
+        const itemName = item.querySelector('[data-product-name]').textContent.trim();
+        if (itemName === startItemName) {
+          const itemPrice = item.querySelector('[data-product-price]').textContent.trim();
+          startPriceField.value = itemPrice;
+          return parseFloat(itemPrice.replace(/[^0-9.-]+/g,"")); // Remove non-numeric characters and parse
+        }
+      }
+    }
+    return 0; // Return 0 if no matching item found
   }
 
   // Update estimate with base price, selected addons, styles, and urgency
@@ -123,27 +151,25 @@ document.addEventListener('DOMContentLoaded', function() {
     estimateElement.textContent = formatPrice(total);
 
     // Update the hidden input field with the estimated price
-    document.getElementById('estimated-price').value = total;
+    const estimatedPriceField = document.querySelector('[form-field="est-price"]');
+    if (estimatedPriceField) {
+      estimatedPriceField.value = total;
+    }
   }
 
-  const cmsItems = document.querySelectorAll('[form-addon="cms"] [data-product-name]');
-  cmsItems.forEach(item => {
-    if (item.getAttribute('data-product-name') === "One and Done") {
-      const price = parseFloat(item.nextElementSibling.getAttribute('data-product-price'));
-      basePrice = price;
-    }
-  });
-
   const estimateElement = document.querySelector('[form-estimate="price"]');
+  
+  // Set base price from CMS data
+  basePrice = setStartPrice();
   estimateElement.textContent = formatPrice(basePrice);
 
   const checkboxes = document.querySelectorAll('input[type="checkbox"]');
   checkboxes.forEach(checkbox => {
     checkbox.addEventListener('change', function() {
       updateEstimate();
-      updateAddonNames(); // Update the addon names when any checkbox changes
-      updatePageNames();  // Update the page names when any checkbox changes
-      updateStyleNames(); // Update the style names when any checkbox changes
+      updateAddonNames();
+      updatePageNames();
+      updateStyleNames();
     });
   });
 
